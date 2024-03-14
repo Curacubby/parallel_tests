@@ -39,7 +39,12 @@ module ParallelTests
     end
 
     def pid_file_path
-      ENV.fetch('PARALLEL_PID_FILE')
+      require 'securerandom'
+      ENV.fetch(
+        'PARALLEL_PID_FILE',
+        Tempfile.open('parallel_tests-pidfile').path
+                .concat(SecureRandom.urlsafe_base64)
+      )
     end
 
     def stop_all_processes
