@@ -43,6 +43,7 @@ module ParallelTests
 
     def read
       sync do
+        return if !File.exist?(file_path)
         contents = File.read(file_path)
         return if contents.empty?
         @pids = JSON.parse(contents)
